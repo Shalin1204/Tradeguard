@@ -127,10 +127,4 @@ Add/edit rules here — no code changes needed.
 
 ---
 
-## Team
 
-| Member | Owns |
-|---|---|
-| Harsh Dubey | Brain — `src/brain/` |
-| Mridula Manoj | Shield + Policy — `src/shield/`, `src/policy/` |
-| Shalin Mishra | Execution + Logging — `src/execution/`, `src/logger/` |
