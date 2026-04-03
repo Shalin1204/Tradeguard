@@ -470,39 +470,6 @@
       <div class="feature-card"><div class="feature-num">03</div><h3>No Privilege Escalation</h3><p>Research agents cannot execute trades. Execution agents cannot override risk. Each agent is bound to its role at runtime.</p></div>
       <div class="feature-card"><div class="feature-num">04</div><h3>Prompt Injection Guard</h3><p>OpenClaw and Policy Engine both detect manipulation phrases like "ignore rules" or "bypass enforcement" and immediately block.</p></div>
     </div>
-    <div class="design-specs">
-      <h3 class="section-title">Design Specifications</h3>
-      <div class="specs-content">
-        <div class="spec-section">
-          <h4>Architectural Expectations</h4>
-          <ul>
-            <li>Clear separation between reasoning and execution.</li>
-            <li>A visible and explicit enforcement layer.</li>
-            <li>Traceability through logs or decision records.</li>
-            <li>At least one allowed financial action (e.g., paper trade within policy) and one blocked action (e.g., trade rejected for exceeding limits) with clear rationale.</li>
-          </ul>
-        </div>
-        <div class="spec-section">
-          <h4>Intent and Policy Design</h4>
-          <ul>
-            <li>Define a structured intent model and an enforceable policy model.</li>
-            <li>Financial constraints: trade size limits, ticker/asset class restrictions, directory-scoped file access, tool restrictions, time-based restrictions (market hours, earnings blackouts), spend/exposure limits.</li>
-            <li>Intent and policy models must be structured and interpretable — hardcoded conditional logic alone is not sufficient.</li>
-            <li>Enforcement must be programmatic and autonomous. Manual approval during execution is not permitted.</li>
-          </ul>
-        </div>
-        <div class="spec-section">
-          <h4>Judging Criteria</h4>
-          <ul>
-            <li>Enforcement Strength: Constraints technically enforced at runtime; violations deterministically blocked.</li>
-            <li>Architectural Clarity: Reasoning separated from execution; explicit and well-designed enforcement layer.</li>
-            <li>OpenClaw Integration: Meaningful leverage of OpenClaw capabilities.</li>
-            <li>Accurate Delegation Enforcement: Scope boundaries correctly enforced (bonus if implemented).</li>
-            <li>Use Case Depth: Realistic financial scenario reflecting genuine risks like unauthorized trades, data exfiltration, or scope escalation.</li>
-          </ul>
-        </div>
-      </div>
-    </div>
   </div>
 </section>
 
