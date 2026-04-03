@@ -811,7 +811,7 @@ cat logs/audit.jsonl | jq -s 'group_by(.event_type) | map({type: .[0].event_type
 
 ---
 
-## 🏆 Judging Criteria Mapping
+## 🏆 Judging Criteria Map
 
 ```
 ┌───────────────────────────────┬────────────────────────────────────────────────────┐
