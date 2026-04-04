@@ -1,0 +1,72 @@
+MIT License
+
+Copyright (c) 2025 Team E2C — TradeGuard X
+  Harsh Dubey       <hd8099@srmist.edu.in>   (Team Lead)
+  Mridula Manoj     <mm4148@srmist.edu.in>   (Security Layer)
+  Shalin Mishra     <sm2550@srmist.edu.in>   (Execution & Audit Layer)
+
+Project: TradeGuard X — Intent-Enforced Autonomous Trading System
+Hackathon: OssomeHacks | Track: Claw & Shield
+Repository: https://github.com/Shalin1204/Tradeguard
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Permission is hereby granted, free of charge, to any person obtaining
+a copy of this software and associated documentation files (the
+"Software"), to deal in the Software without restriction, including
+without limitation the rights to use, copy, modify, merge, publish,
+distribute, sublicense, and/or sell copies of the Software, and to
+permit persons to whom the Software is furnished to do so, subject to
+the following conditions:
+
+The above copyright notice and this permission notice shall be included
+in all copies or substantial portions of the Software.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+THIRD-PARTY LICENSES
+
+This project makes use of the following open-source dependencies.
+Each is subject to its own license terms:
+
+  openai              MIT License
+  jsonwebtoken        MIT License
+  zod                 MIT License
+  express             MIT License
+  winston             MIT License
+  cors                MIT License
+  typescript          Apache License 2.0
+  ts-node             MIT License
+  dotenv              BSD 2-Clause License
+
+External APIs used (subject to their own Terms of Service):
+
+  OpenAI API          https://openai.com/policies/terms-of-use
+  Alpaca Markets API  https://alpaca.markets/terms-and-conditions
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+DISCLAIMER FOR FINANCIAL USE
+
+TradeGuard X is a research and educational prototype built for a
+hackathon. It is NOT intended for use with real financial assets or
+in production trading environments.
+
+  - The Alpaca integration uses Paper Trading only (simulated funds)
+  - No real money is involved in any demo or prototype flow
+  - The authors accept no liability for financial decisions made
+    using or inspired by this software
+
+Use in any live trading environment is entirely at the user's own risk.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
