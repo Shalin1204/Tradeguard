@@ -1,0 +1,74 @@
+{
+  "version": "2.2.0",
+  "name": "TradeGuard X — Production Policy Set",
+  "enforcement_mode": "fail_closed",
+  "description": "All rules are evaluated in order. A single failure blocks execution. Unknown rule types default to BLOCK.",
+  "rules": [
+    {
+      "id": "R001",
+      "type": "trade_limit",
+      "description": "Maximum single trade value in USD",
+      "max": 2000,
+      "severity": "CRITICAL"
+    },
+    {
+      "id": "R002",
+      "type": "ticker_whitelist",
+      "description": "Only pre-approved tickers may be traded",
+      "allowed": ["AAPL", "MSFT", "GOOGL", "AMZN", "NVDA"],
+      "severity": "CRITICAL"
+    },
+    {
+      "id": "R003",
+      "type": "intent_token_required",
+      "description": "All executions require a valid, unexpired intent contract with scope hash",
+      "severity": "CRITICAL"
+    },
+    {
+      "id": "R004",
+      "type": "action_whitelist",
+      "description": "Only permitted agent actions may be executed",
+      "allowed": ["alpaca_buy", "alpaca_sell", "web_search", "analyze", "assess_risk", "flag_trade"],
+      "severity": "HIGH"
+    },
+    {
+      "id": "R005",
+      "type": "prompt_injection_guard",
+      "description": "Detect and block prompt injection / jailbreak attempts in instructions",
+      "forbidden_patterns": ["ignore", "bypass", "override", "forget", "jailbreak", "disable", "skip", "disregard", "unlock", "unrestricted", "act as", "pretend", "roleplay"],
+      "severity": "CRITICAL"
+    },
+    {
+      "id": "R006",
+      "type": "role_enforcement",
+      "description": "Enforce strict scoped delegation — agents may only perform role-authorized actions",
+      "roles": {
+        "research_agent":  ["web_search", "analyze"],
+        "execution_agent": ["alpaca_buy", "alpaca_sell"],
+        "risk_agent":      ["assess_risk", "flag_trade", "analyze"]
+      },
+      "severity": "CRITICAL"
+    },
+    {
+      "id": "R007",
+      "type": "bulk_sell_guard",
+      "description": "Block any instruction to sell all or liquidate all positions",
+      "forbidden_phrases": ["sell everything", "sell all", "liquidate all", "dump all", "all positions", "all my shares"],
+      "severity": "CRITICAL"
+    },
+    {
+      "id": "R008",
+      "type": "daily_trade_limit",
+      "description": "Maximum number of trades executed per day",
+      "max_trades": 10,
+      "severity": "HIGH"
+    },
+    {
+      "id": "R009",
+      "type": "max_position_size",
+      "description": "Single trade cannot exceed 5% of total portfolio value",
+      "max_pct": 5,
+      "severity": "HIGH"
+    }
+  ]
+}

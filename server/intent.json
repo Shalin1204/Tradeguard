@@ -1,0 +1,12 @@
+{
+  "schema_version": "1.0",
+  "default_intent": {
+    "max_trade": 2000,
+    "allowed_tickers": ["AAPL", "MSFT", "GOOGL", "AMZN", "NVDA"],
+    "allowed_actions": ["alpaca_buy", "alpaca_sell", "web_search", "analyze"],
+    "allowed_roles": ["execution_agent", "research_agent"],
+    "expiry_seconds": 300,
+    "require_2fa": false,
+    "audit_level": "FULL"
+  }
+}
