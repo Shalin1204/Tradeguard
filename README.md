@@ -59,8 +59,236 @@
 ## ⚠️ The Problem
 
 Autonomous AI agents are entering financial workflows — researching equities, executing trades, managing portfolios. This is powerful. It is also dangerous.
+<div align="center">
 
 ```
+████████╗██████╗  █████╗ ██████╗ ███████╗ ██████╗ ██╗   ██╗ █████╗ ██████╗ ██████╗     ██╗  ██╗
+╚══██╔══╝██╔══██╗██╔══██╗██╔══██╗██╔════╝██╔════╝ ██║   ██║██╔══██╗██╔══██╗██╔══██╗    ╚██╗██╔╝
+   ██║   ██████╔╝███████║██║  ██║█████╗  ██║  ███╗██║   ██║███████║██████╔╝██║  ██║     ╚███╔╝ 
+   ██║   ██╔══██╗██╔══██║██║  ██║██╔══╝  ██║   ██║██║   ██║██╔══██║██╔══██╗██║  ██║     ██╔██╗ 
+   ██║   ██║  ██║██║  ██║██████╔╝███████╗╚██████╔╝╚██████╔╝██║  ██║██║  ██║██████╔╝    ██╔╝ ██╗
+   ╚═╝   ╚═╝  ╚═╝╚═╝  ╚═╝╚═════╝ ╚══════╝ ╚═════╝  ╚═════╝ ╚═╝  ╚═╝╚═╝  ╚═╝╚═════╝     ╚═╝  ╚═╝
+```
+
+### **Intent Enforced. Not Inferred.**
+
+*An intent-bound autonomous trading agent with 4-layer runtime enforcement*  
+*powered by OpenClaw + ArmorIQ — built for OSSome Hacks 3.0 · Claw & Shield Track*
+
+---
+
+[![OpenClaw](https://img.shields.io/badge/OpenClaw-Autonomous_Agent-0D6EFD?style=for-the-badge&logo=node.js&logoColor=white)](https://openclaw.ai)
+[![ArmorIQ](https://img.shields.io/badge/ArmorIQ-Intent_Enforcement-DC3545?style=for-the-badge&logo=shield&logoColor=white)](https://armoriq.io)
+[![Alpaca](https://img.shields.io/badge/Alpaca-Paper_Trading-FECC02?style=for-the-badge&logo=alpaca&logoColor=black)](https://alpaca.markets)
+[![TypeScript](https://img.shields.io/badge/TypeScript-Strict-3178C6?style=for-the-badge&logo=typescript&logoColor=white)](https://www.typescriptlang.org)
+[![License](https://img.shields.io/badge/License-MIT-green?style=for-the-badge)](LICENSE)
+
+---
+
+> *"In financial systems, intent must be enforced — not inferred."*  
+> — OSSome Hacks 3.0 · Claw & Shield Problem Statement
+
+</div>
+
+---
+## 🎥 Demo Video
+👉 [Watch here](https://drive.google.com/file/d/1D4xY_o4F4rbqSfCd2qA4Ffa5MeGQL6fl/view?usp=sharing)
+
+## 📌 Table of Contents
+
+| # | Section |
+|---|---------|
+| 1 | [The Problem](#-the-problem) |
+| 2 | [What TradeGuard X Does](#-what-tradeguard-x-does) |
+| 3 | [ArmorIQ — Why This Matters](#-armoriq--why-this-matters) |
+| 4 | [System Architecture](#-system-architecture) |
+| 5 | [The 4-Layer Enforcement Pipeline](#-the-4-layer-enforcement-pipeline) |
+| 6 | [Three-Role Agent System](#-three-role-agent-system) |
+| 7 | [Intent Model & Policy Design](#-intent-model--policy-design) |
+| 8 | [Project Structure](#-project-structure) |
+| 9 | [Setup from Zero](#-setup-from-zero) |
+| 10 | [Running the Demos](#-running-the-demos) |
+| 11 | [Demo Scenarios](#-demo-scenarios) |
+| 12 | [Audit Trail](#-audit-trail) |
+| 13 | [Judging Criteria Mapping](#-judging-criteria-mapping) |
+| 14 | [Tech Stack](#-tech-stack) |
+| 15 | [Tradeoffs & Limitations](#-tradeoffs--limitations) |
+| 16 | [Team](#-team) |
+
+---
+
+## ⚠️ The Problem
+
+Autonomous AI agents are entering financial workflows — researching equities, executing trades, managing portfolios. This is powerful. It is also dangerous.
+
+```
+┌─────────────────────────────────────────────────────────────────────┐
+│                     THE THREAT LANDSCAPE                            │
+├──────────────────────────┬──────────────────────────────────────────┤
+│  ATTACK VECTOR           │  REAL-WORLD CONSEQUENCE                  │
+├──────────────────────────┼──────────────────────────────────────────┤
+│  Prompt Injection        │  Malicious text in market data hijacks   │
+│                          │  agent reasoning → unauthorized trades   │
+├──────────────────────────┼──────────────────────────────────────────┤
+│  Silent Scope Escalation │  Agent quietly expands its own authority │
+│                          │  mid-task → trades outside mandate       │
+├──────────────────────────┼──────────────────────────────────────────┤
+│  Unauthorized Tool Exec  │  Agent calls tools it was never          │
+│                          │  authorized for → data exfiltration      │
+├──────────────────────────┼──────────────────────────────────────────┤
+│  Cross-Role Contamination│  Research agent places trades, executor  │
+│                          │  reads sensitive files → compliance fail │
+├──────────────────────────┼──────────────────────────────────────────┤
+│  Credential Exposure     │  Agent accesses .env, SSH keys, secrets  │
+│                          │  → account compromise                    │
+└──────────────────────────┴──────────────────────────────────────────┘
+```
+
+**The root cause:** Traditional access control tells you *who can act on what*. It says nothing about *whether the action belongs to the user's declared intent*. An agent with valid credentials can be authenticated, authorized — and completely misaligned.
+
+---
+
+## 🛡️ What TradeGuard X Does
+
+TradeGuard X is an **intent-bound autonomous trading agent** where every financial action must pass four independent enforcement gates before reaching the Alpaca paper trading API. The user declares a mandate once. ArmorClaw cryptographically commits to it. Nothing executes without proving membership in that committed plan.
+
+```
+                    ┌──────────────────────────────┐
+                    │        USER MANDATE           │
+                    │  budget: $10,000              │
+                    │  max trade: $2,000            │
+                    │  tickers: AAPL, MSFT...       │
+                    └──────────────┬───────────────┘
+                                   │ declared once, immutable at runtime
+                                   ▼
+                    ┌──────────────────────────────┐
+                    │    LLM PLANNER (Brain)        │  ← OpenClaw
+                    │    "Research AAPL, buy 10"   │
+                    │    → AgentPlan [step1,step2]  │
+                    └──────────────┬───────────────┘
+                                   │
+                                   ▼
+                    ┌──────────────────────────────┐
+                    │   ARMORCLAW INTENT TOKEN     │  ← ArmorIQ
+                    │   JWT: approved_steps=[...]  │
+                    │   Signed · TTL 60s · CSRG   │
+                    └──────────────┬───────────────┘
+                                   │
+                    ┌──────────────▼───────────────┐
+                    │      enforce() GATE          │
+                    │                              │
+                    │  Layer 1: Token valid?        │ ← ArmorClaw
+                    │  Layer 2: Risk score?         │ ← Risk Engine
+                    │  Layer 3: Policy R001-R006?   │ ← Policy Evaluator
+                    │  Layer 4: Role boundary?      │ ← Role System
+                    │                              │
+                    └────┬─────────────────┬───────┘
+                         │                 │
+                    ALLOW │                 │ BLOCK
+                         ▼                 ▼
+              ┌──────────────┐    ┌──────────────────┐
+              │ Alpaca Paper │    │  Audit Log        │
+              │   API        │    │  JSONL · append   │
+              │ Real order ✓ │    │  only · reason    │
+              └──────────────┘    └──────────────────┘
+```
+
+---
+
+## 🏢 ArmorIQ — Why This Matters
+
+[ArmorIQ](https://armoriq.io) is building the security layer the AI agent ecosystem desperately needs. Their thesis: **Intent is the New Perimeter.**
+
+Traditional IAM answers "who can act on what?" ArmorIQ answers "was this specific action part of what the agent was *supposed* to do in this session?"
+
+### Their Core Technology
+
+**Intent Assurance Plane (IAP)** — the infrastructure that sits between AI reasoning and execution:
+
+```
+┌─────────────────────────────────────────────────────────────────┐
+│                   ARMORIQ IAP FLOW                              │
+├─────────────────────────────────────────────────────────────────┤
+│                                                                 │
+│  1. USER INSTRUCTION → converted to CSRG                       │
+│     Canonical Structured Reasoning Graph                        │
+│     • Directed graph of allowed steps                           │
+│     • Merkle root computed over the graph                       │
+│     • Root signed by ArmorIQ IAP                                │
+│                                                                 │
+│  2. COMPOSITE EPHEMERAL IDENTITY created                        │
+│     = user identity + agent workload + domain + plan root       │
+│     • Short-lived (expires when task ends)                      │
+│     • Cannot be reused or extended                              │
+│                                                                 │
+│  3. PER-STEP PROOF REQUIRED at execution                        │
+│     • Agent presents: signed intent token                       │
+│     • Agent presents: Merkle inclusion proof for this step      │
+│     • If proof missing → action NEVER executes                  │
+│                                                                 │
+│  4. DELEGATION = NEW CSRG ROOT                                  │
+│     • Chained agents get scoped sub-identity                    │
+│     • New limited token issued                                  │
+│     • No inherited trust. No implicit permissions.              │
+│                                                                 │
+└─────────────────────────────────────────────────────────────────┘
+```
+
+**ArmorClaw** is ArmorIQ's OpenClaw plugin — it hooks into OpenClaw's tool dispatch and enforces the IAP flow before every skill execution. TradeGuard X builds on this foundation and extends it with financial-domain-specific enforcement layers.
+
+---
+
+## 🏗️ System Architecture
+
+```
+┌─────────────────────────────────────────────────────────────────────────────────┐
+│                          TRADEGUARD X ARCHITECTURE                              │
+│                                                                                 │
+│  ┌─────────────────┐    ┌─────────────────┐    ┌─────────────────────────────┐│
+│  │  REASONING       │    │  ENFORCEMENT     │    │  EXECUTION                  ││
+│  │  (OpenClaw)      │    │  (ArmorClaw)     │    │  (Alpaca Skill)             ││
+│  │                  │    │                  │    │                             ││
+│  │  LLM Planner    │───▶│  Intent Token    │───▶│  alpaca_place_order()       ││
+│  │  (gpt-4o-mini)  │    │  (JWT, 60s TTL)  │    │  alpaca_get_quote()         ││
+│  │                  │    │                  │    │  alpaca_get_positions()     ││
+│  │  AgentPlan      │    │  Risk Engine     │    │                             ││
+│  │  [PlannedStep]  │    │  (4-factor score)│    │  Paper Trading API          ││
+│  │                  │    │                  │    │  Real order IDs             ││
+│  │  step_id: uuid  │    │  Policy Rules    │    │  No real money              ││
+│  │  tool: string   │    │  R001–R006       │    │                             ││
+│  │  args: {}       │    │                  │    └─────────────────────────────┘│
+│  │  rationale: str │    │  Role Boundaries │                                   │
+│  │                  │    │  (3 agents)      │    ┌─────────────────────────────┐│
+│  └─────────────────┘    └────────┬─────────┘    │  AUDIT TRAIL                ││
+│                                   │              │                             ││
+│                            ALLOW  │  BLOCK       │  ./logs/audit.jsonl         ││
+│                                   ▼  ▼           │  Append-only JSONL          ││
+│                            ┌──────┴──┴───────┐   │  event_type: ALLOWED/       ││
+│                            │  Every decision  │──▶│    BLOCKED/INJECTION        ││
+│                            │  logged FIRST   │   │  rule_triggered: R00x       ││
+│                            │  then executed  │   │  reason: string             ││
+│                            └─────────────────┘   │  timestamp: ISO             ││
+│                                                   │  risk_level: LOW..CRITICAL  ││
+│                                                   └─────────────────────────────┘│
+└─────────────────────────────────────────────────────────────────────────────────┘
+
+  3 Agent Roles — each with its own scoped ArmorClaw token:
+
+  ┌──────────────────────┐  ┌──────────────────────┐  ┌──────────────────────┐
+  │   RESEARCH AGENT     │  │   EXECUTOR AGENT      │  │   RISK AGENT         │
+  │   TTL: 5 min         │  │   TTL: 2 min          │  │   TTL: 10 min        │
+  │   ─────────────      │  │   ─────────────       │  │   ─────────────      │
+  │   ✓ web_search       │  │   ✓ alpaca_place_order│  │   ✓ alpaca_positions │
+  │   ✓ alpaca_get_quote │  │   ✓ alpaca_positions  │  │   ✓ alpaca_cancel    │
+  │   ✓ alpaca_account   │  │   ✗ web_search        │  │   ✗ alpaca_place     │
+  │   ✗ alpaca_place     │  │   ✗ web_fetch         │  │   ✗ web_search       │
+  │   ✗ write_file       │  │   ✗ bash              │  │   ✗ write_file       │
+  │   ✗ bash             │  │   ✗ write_file        │  │   ✗ bash             │
+  └──────────┬───────────┘  └──────────────────────┘  └──────────────────────┘
+             │ scoped delegation
+             │ new token issued
+             ▼
+     ResearchReport.json → Executor reads → places order
 ┌─────────────────────────────────────────────────────────────────────┐
 │                     THE THREAT LANDSCAPE                            │
 ├──────────────────────────┬──────────────────────────────────────────┤
@@ -352,10 +580,163 @@ OUTPUT:                           INPUT:                           RUNS:
                     │  Research token CANNOT authorize │
                     │  this execution — different plan  │
                     └─────────────────────────────────┘
+## 🔐 The 4-Layer Enforcement Pipeline
+
+This is the core differentiator. Every action passes four independent gates before any execution happens.
+
+```
+┌─────────────────────────────────────────────────────────────────────────┐
+│                     enforce(step, token, intent, policy, role)           │
+├─────────────────────────────────────────────────────────────────────────┤
+│                                                                         │
+│  ┌──────────────────────────────────────────────────────────────────┐  │
+│  │  LAYER 1 ── ARMORIQ INTENT TOKEN VERIFICATION                    │  │
+│  │                                                                  │  │
+│  │  jwt.verify(intentToken, ARMORIQ_API_KEY)                        │  │
+│  │  → is JWT valid and not expired?                                 │  │
+│  │  → is step.step_id in token.approved_steps[]?                    │  │
+│  │                                                                  │  │
+│  │  If NO → BLOCK "step not in approved plan"                       │  │
+│  │          write INJECTION_DETECTED to audit log                   │  │
+│  │                                                                  │  │
+│  │  ✦ This is what stops prompt injection. Injected steps have      │  │
+│  │    no Merkle proof and are never in approved_steps.              │  │
+│  └──────────────────────────────────────────────────────────────────┘  │
+│                              ↓ PASS                                     │
+│  ┌──────────────────────────────────────────────────────────────────┐  │
+│  │  LAYER 2 ── DYNAMIC RISK SCORING ENGINE                          │  │
+│  │                                                                  │  │
+│  │  score = 0                                                       │  │
+│  │  + trade_size / max_trade_size_usd × factor                      │  │
+│  │  + dangerous_action_map[step.tool]  (bash=10, liquidate=10)      │  │
+│  │  + volatile_ticker_large_notional   (TSLA >$1000 = +2)           │  │
+│  │  + injection_keyword_pattern        ("sell all", "ignore" = +8)  │  │
+│  │                                                                  │  │
+│  │  score 0-1 = LOW    → proceed                                    │  │
+│  │  score 2-4 = MEDIUM → proceed (logged with warning)             │  │
+│  │  score 5-7 = HIGH   → BLOCK "risk level HIGH"                   │  │
+│  │  score 8+  = CRITICAL → BLOCK "risk level CRITICAL"             │  │
+│  │                                                                  │  │
+│  │  ✦ Catches contextually dangerous actions that don't violate     │  │
+│  │    any specific policy rule — the gap other teams miss.          │  │
+│  └──────────────────────────────────────────────────────────────────┘  │
+│                              ↓ PASS                                     │
+│  ┌──────────────────────────────────────────────────────────────────┐  │
+│  │  LAYER 3 ── POLICY RULE EVALUATION (data-driven, not if/else)    │  │
+│  │                                                                  │  │
+│  │  for (const rule of policy.rules) {                              │  │
+│  │    const violation = evaluateRule(rule, step, mandate)           │  │
+│  │    if (violation) return BLOCK(rule.rule_id, violation)          │  │
+│  │  }                                                               │  │
+│  │                                                                  │  │
+│  │  R001 financial_constraint  notional_usd ≤ max_trade_size_usd   │  │
+│  │  R002 financial_constraint  ticker ∈ allowed_tickers[]          │  │
+│  │  R003 temporal_constraint   time ∈ NYSE hours 09:30–16:00 ET    │  │
+│  │  R004 financial_constraint  daily_trades < max_daily_trades      │  │
+│  │  R005 financial_constraint  position_pct ≤ max_position_pct     │  │
+│  │  R006 tool_allowlist        step ∈ intent token (anti-injection) │  │
+│  │                                                                  │  │
+│  │  ✦ Rules reference mandate fields dynamically — NOT hardcoded.   │  │
+│  │    Change the mandate → rules update automatically.              │  │
+│  └──────────────────────────────────────────────────────────────────┘  │
+│                              ↓ PASS                                     │
+│  ┌──────────────────────────────────────────────────────────────────┐  │
+│  │  LAYER 4 ── ROLE BOUNDARY ENFORCEMENT (delegation enforcement)   │  │
+│  │                                                                  │  │
+│  │  const rolePermissions = intent.roles[currentRole]              │  │
+│  │  if (!rolePermissions.includes(step.tool))                       │  │
+│  │    return BLOCK("ROLE_BOUNDARY", `${role} cannot use ${tool}`)   │  │
+│  │                                                                  │  │
+│  │  ✦ Cross-role escalation is cryptographically impossible.        │  │
+│  │    Research token was never issued with trade steps.             │  │
+│  └──────────────────────────────────────────────────────────────────┘  │
+│                              ↓ ALL PASS                                 │
+│                                                                         │
+│              ✅  ALLOW → Alpaca Paper API → Real Order                  │
+│                                                                         │
+└─────────────────────────────────────────────────────────────────────────┘
 ```
 
 ---
 
+## 👥 Three-Role Agent System
+
+```
+RESEARCH AGENT                    EXECUTOR AGENT                   RISK AGENT
+══════════════                    ══════════════                   ══════════
+Role: Read-only analysis          Role: Trade execution only       Role: Oversight & cancellation
+Token TTL: 5 minutes              Token TTL: 2 minutes             Token TTL: 10 minutes
+
+ALLOWED TOOLS:                    ALLOWED TOOLS:                   ALLOWED TOOLS:
+  ✅ web_search                     ✅ alpaca_place_order              ✅ alpaca_get_positions
+  ✅ alpaca_get_quote                ✅ alpaca_get_positions            ✅ alpaca_cancel_order
+  ✅ alpaca_get_account                                               
+                                  BLOCKED TOOLS:                   BLOCKED TOOLS:
+BLOCKED TOOLS:                      ❌ web_search                     ❌ alpaca_place_order
+  ❌ alpaca_place_order               ❌ web_fetch                      ❌ web_search
+  ❌ alpaca_cancel_order              ❌ read_file                      ❌ write_file
+  ❌ write_file                       ❌ bash                           ❌ bash
+  ❌ bash                             ❌ write_file                     ❌ read_file
+  ❌ read_file
+
+OUTPUT:                           INPUT:                           RUNS:
+  ResearchReport.json               ResearchReport.json            After every trade
+  → {ticker, sentiment,             → executes order               Checks position limits
+     price, recommendation}         → logs order ID                Can cancel if breached
+
+
+                    ┌─────────────────────────────────┐
+                    │     SCOPED DELEGATION FLOW       │
+                    │                                  │
+                    │  Research token issued           │
+                    │       ↓                          │
+                    │  Research produces report        │
+                    │       ↓                          │
+                    │  NEW Executor token issued       │  ← ArmorIQ "Trust Update"
+                    │  (different scope, 2-min TTL)    │  ← New CSRG root computed
+                    │       ↓                          │
+                    │  Executor reads report, trades   │
+                    │       ↓                          │
+                    │  Research token CANNOT authorize │
+                    │  this execution — different plan  │
+                    └─────────────────────────────────┘
+```
+
+---
+
+## 📋 Intent Model & Policy Design
+
+### Intent Model (`config/intent_model.json`)
+
+The user declares their mandate **once** before any agent run. The agent reads this at startup and **cannot modify it at runtime**.
+
+```json
+{
+  "session_id": "tradeguard-demo-001",
+  "created_at": "2026-04-03T08:00:00Z",
+  "user_label": "Conservative Growth — Tech Equities",
+  "mandate": {
+    "budget_usd": 10000,
+    "max_trade_size_usd": 2000,
+    "max_daily_trades": 5,
+    "allowed_tickers": ["AAPL", "MSFT", "GOOGL", "AMZN", "TSLA"],
+    "allowed_asset_classes": ["equity"],
+    "market_hours_only": true,
+    "earnings_blackout": true,
+    "allowed_order_types": ["market", "limit"],
+    "max_position_pct": 25
+  },
+  "roles": {
+    "research":  ["web_search", "alpaca_get_quote", "alpaca_get_account"],
+    "execution": ["alpaca_place_order", "alpaca_get_positions"],
+    "risk":      ["alpaca_get_positions", "alpaca_cancel_order"]
+  }
+}
+```
+
+### Policy Model (`config/policy.json`)
+
+Six enforcement rules in **data-driven format** — not hardcoded conditional logic. The engine evaluates rules dynamically against the mandate at runtime.
 ## 📋 Intent Model & Policy Design
 
 ### Intent Model (`config/intent_model.json`)
@@ -397,7 +778,54 @@ Six enforcement rules in **data-driven format** — not hardcoded conditional lo
                     "alpaca_place_order", "alpaca_get_quote"],
   "denied_tools":  ["bash", "write_file", "read_file", "exec",
                     "alpaca_cancel_all_orders", "alpaca_liquidate_all"],
+  "version": "1.0.0",
+  "allowed_tools": ["web_search", "alpaca_get_positions", "alpaca_get_account",
+                    "alpaca_place_order", "alpaca_get_quote"],
+  "denied_tools":  ["bash", "write_file", "read_file", "exec",
+                    "alpaca_cancel_all_orders", "alpaca_liquidate_all"],
   "rules": [
+    {
+      "rule_id": "R001",
+      "type": "financial_constraint",
+      "description": "Trade notional must not exceed max_trade_size_usd",
+      "config": { "field": "notional_usd", "operator": "lte",
+                  "threshold_from_mandate": "max_trade_size_usd" }
+    },
+    {
+      "rule_id": "R002",
+      "type": "financial_constraint",
+      "description": "Ticker must be in allowed_tickers whitelist",
+      "config": { "field": "ticker", "operator": "in",
+                  "values_from_mandate": "allowed_tickers" }
+    },
+    {
+      "rule_id": "R003",
+      "type": "temporal_constraint",
+      "description": "Orders only during NYSE market hours 09:30–16:00 ET",
+      "config": { "timezone": "America/New_York", "open": "09:30",
+                  "close": "16:00", "bypass_env": "BYPASS_MARKET_HOURS" }
+    },
+    {
+      "rule_id": "R004",
+      "type": "financial_constraint",
+      "description": "Daily trade count must not exceed max_daily_trades",
+      "config": { "counter": "daily_trades", "operator": "lt",
+                  "threshold_from_mandate": "max_daily_trades" }
+    },
+    {
+      "rule_id": "R005",
+      "type": "financial_constraint",
+      "description": "Single position must not exceed max_position_pct of budget",
+      "config": { "field": "position_pct", "operator": "lte",
+                  "threshold_from_mandate": "max_position_pct" }
+    },
+    {
+      "rule_id": "R006",
+      "type": "tool_allowlist",
+      "description": "Step must exist in committed intent token — prevents prompt injection",
+      "config": { "enforcement": "plan_membership_required",
+                  "token_claim": "approved_steps" }
+    }
     {
       "rule_id": "R001",
       "type": "financial_constraint",
